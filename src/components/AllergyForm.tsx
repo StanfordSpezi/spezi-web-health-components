@@ -19,21 +19,20 @@ import { Button } from "@stanfordbdhg/spezi-web-design-system";
 import { Field } from "@stanfordbdhg/spezi-web-design-system";
 import { startCase } from "es-toolkit";
 import { MedicationSelect } from "@/components/MedicationSelect";
-import { AllergyType, Allergy } from "@/models/allergy";
-import { Medication } from "@/models/medication";
+import { Medication, AllergyIntolerance} from '@medplum/fhirtypes'
 
-export const stringifyAllergyType = (type: AllergyType) => startCase(type);
+export const stringifyAllergyType = (type: AllergyIntolerance["type"]) => startCase(type ?? "");
 
 export const allergyFormSchema = z.object({
   medication: z.string(),
-  type: z.nativeEnum(AllergyType),
+  type: z.enum(["allergy", "intolerance"]),
 });
 
 export type AllergyFormSchema = z.infer<typeof allergyFormSchema>;
 
 interface AllergyFormProps {
-  allergy?: Allergy;
-  medications: {
+  allergy?: AllergyIntolerance;
+  medicationClasses: {
     id: string;
     name: string | Record<string, string>;
     medications: Medication[];
@@ -44,15 +43,11 @@ interface AllergyFormProps {
 export const AllergyForm = ({
   allergy,
   onSubmit,
-  medications,
+  medicationClasses,
 }: AllergyFormProps) => {
   const isEdit = !!allergy;
   const form = useForm({
-    formSchema: allergyFormSchema,
-    defaultValues: {
-      type: allergy?.type,
-      medication: allergy?.medication ?? undefined,
-    },
+    formSchema: allergyFormSchema
   });
 
   const handleSubmit = form.handleSubmit(async (data: AllergyFormSchema) => {
@@ -70,9 +65,9 @@ export const AllergyForm = ({
               <SelectValue placeholder="Type" />
             </SelectTrigger>
             <SelectContent>
-              {Object.values(AllergyType).map((type) => (
+              {Object.values(["allergy", "intolerance"]).map((type) => (
                 <SelectItem key={type} value={type}>
-                  {stringifyAllergyType(type)}
+                  {stringifyAllergyType(type as AllergyIntolerance["type"])}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -84,7 +79,7 @@ export const AllergyForm = ({
         name="medication"
         render={({ field }) => (
           <MedicationSelect
-            medicationClasses={medications}
+            medicationClasses={medicationClasses}
             onValueChange={field.onChange}
             {...field}
           />

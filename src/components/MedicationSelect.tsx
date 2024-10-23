@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@stanfordbdhg/spezi-web-design-system";
-import { Medication } from "@/models/medication";
+import { Medication } from '@medplum/fhirtypes'
 
 interface MedicationSelectProps extends ComponentProps<typeof Select> {
   medicationClasses: {
@@ -43,8 +43,8 @@ export const MedicationSelect = ({
               : Object.values(medicationClass.name)[0]}
           </SelectLabel>
           {medicationClass.medications.map((medication) => (
-            <SelectItem value={medication.id} key={medication.id}>
-              {medication.name}
+            <SelectItem value={medication.code?.coding?.[0].code ?? ""} key={medication.code?.coding?.[0].code ?? ""}>
+              {medication.code?.coding?.[0].display}
             </SelectItem>
           ))}
         </SelectGroup>
