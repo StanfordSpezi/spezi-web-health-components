@@ -32,6 +32,9 @@ export default defineConfig({
       name: '@stanfordbdhg/spezi-web-health-components',
       fileName: (format) => `web-health-components.${format}.js`,
     },
+    rollupOptions: {
+      external: ['react'],
+    },
   },
   test: {
     globals: true,
