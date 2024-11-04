@@ -7,3 +7,6 @@
 //
 
 export * from "./components/AllergyForm";
+export * from "./components/PatientForm";
+export * from "./components/ObservationForm";
+export * from "./components/PatientsTable";

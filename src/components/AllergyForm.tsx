@@ -15,18 +15,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@stanfordbdhg/spezi-web-design-system";
-import { Button } from "@stanfordbdhg/spezi-web-design-system";
-import { Field } from "@stanfordbdhg/spezi-web-design-system";
-import { startCase } from "es-toolkit";
+import { Button, Field } from "@stanfordbdhg/spezi-web-design-system";
 import { MedicationSelect } from "@/components/MedicationSelect";
 import { Medication, AllergyIntolerance} from '@medplum/fhirtypes'
+import { ALLERGY_TYPE_OPTIONS, CLINICAL_STATUS_CODING_SYSTEM, CLINICAL_STATUS_OPTIONS, CRITICALITY_OPTIONS, FHIR_ALLERGY_INTOLERANCE_RESOURCE_TYPE, FHIRAllergyClinicalStatus, FHIRAllergyCriticality, FHIRAllergyIntoleranceType, FHIRAllergyIntoleranceValidationSchema, VERIFICATION_STATUS_CODING_SYSTEM} from "@/modules/fhir/allergy-intolerance";
 
-export const stringifyAllergyType = (type: AllergyIntolerance["type"]) => startCase(type ?? "");
-
-export const allergyFormSchema = z.object({
-  medication: z.string(),
-  type: z.enum(["allergy", "intolerance"]),
-});
+export const allergyFormSchema = FHIRAllergyIntoleranceValidationSchema;
 
 export type AllergyFormSchema = z.infer<typeof allergyFormSchema>;
 
@@ -37,7 +31,7 @@ interface AllergyFormProps {
     name: string | Record<string, string>;
     medications: Medication[];
   }[];
-  onSubmit: (data: AllergyFormSchema) => Promise<void>;
+  onSubmit: (data: AllergyIntolerance) => Promise<void>;
 }
 
 export const AllergyForm = ({
@@ -47,11 +41,42 @@ export const AllergyForm = ({
 }: AllergyFormProps) => {
   const isEdit = !!allergy;
   const form = useForm({
-    formSchema: allergyFormSchema
+    formSchema: allergyFormSchema,
+    defaultValues: {
+      resourceType: FHIR_ALLERGY_INTOLERANCE_RESOURCE_TYPE,
+      category: ['medication'],
+    }
   });
 
   const handleSubmit = form.handleSubmit(async (data: AllergyFormSchema) => {
-    await onSubmit(data);
+    try {
+      const allergyIntolerance: AllergyIntolerance = {
+        resourceType: data.resourceType,
+        type: data.type,
+        clinicalStatus: data.clinicalStatus,
+        verificationStatus: {
+          coding: [{
+            system: VERIFICATION_STATUS_CODING_SYSTEM,
+            display: 'Confirmed',
+            code: 'confirmed'
+          }]
+        },
+        category: ['medication'],
+        criticality: data.criticality,
+        code: {
+          coding: [{
+            system: data.code.coding[0].system,
+            code: data.code.coding[0].code,
+            display: data.code.coding[0].display
+          }]
+        },
+        patient: { reference: allergy?.patient?.reference }
+      };
+      await onSubmit(allergyIntolerance);
+    } catch (error) {
+      console.error("Form submission error:", error);
+      throw error;
+    }
   });
 
   return (
@@ -59,15 +84,16 @@ export const AllergyForm = ({
       <Field
         control={form.control}
         name="type"
+        label="Type"
         render={({ field }) => (
-          <Select onValueChange={field.onChange} {...field}>
-            <SelectTrigger>
+          <Select onValueChange={(value) => field.onChange(value)} {...field} >
+            <SelectTrigger id="type">
               <SelectValue placeholder="Type" />
-            </SelectTrigger>
+            </SelectTrigger >
             <SelectContent>
-              {Object.values(["allergy", "intolerance"]).map((type) => (
-                <SelectItem key={type} value={type}>
-                  {stringifyAllergyType(type as AllergyIntolerance["type"])}
+              {ALLERGY_TYPE_OPTIONS.map((option) => (
+                <SelectItem key={option.code} value={option.code}>
+                  {option.display}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -76,16 +102,84 @@ export const AllergyForm = ({
       />
       <Field
         control={form.control}
-        name="medication"
+        name="code"
+        label="Medication"
         render={({ field }) => (
           <MedicationSelect
             medicationClasses={medicationClasses}
-            onValueChange={field.onChange}
-            {...field}
+            onValueChange={(value) => {
+              const medications = medicationClasses.flatMap(medicationClass => medicationClass.medications)
+              const coding = medications.find(medication => medication.code?.coding?.[0].code === value)?.code?.coding?.[0]
+              return field.onChange({
+                coding: [
+                  {
+                    system: coding?.system,
+                    code: coding?.code,
+                    display: coding?.display
+                  },
+                ],
+              })
+            }}
           />
         )}
       />
-      <Button type="submit" isPending={form.formState.isSubmitting}>
+      <Field
+        control={form.control}
+        name="clinicalStatus"
+        label="Clinical Status"
+        render={({ field }) => (
+          <Select
+            value={field.value?.coding?.[0]?.code}
+            onValueChange={(value) =>
+              field.onChange({
+                coding: [
+                  {
+                    system: CLINICAL_STATUS_CODING_SYSTEM,
+                    code: value,
+                    display: value
+                  },
+                ],
+              })
+            }
+          >
+            <SelectTrigger id="clinicalStatus">
+              <SelectValue placeholder="Select clinical status" />
+            </SelectTrigger>
+            <SelectContent>
+              {CLINICAL_STATUS_OPTIONS.map((option) => (
+                <SelectItem key={option.code} value={option.code}>
+                  {option.display}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
+      />
+      <Field
+        control={form.control}
+        name="criticality"
+        label="Criticality"
+        render={({ field }) => (
+          <Select
+            onValueChange={(value) =>
+              field.onChange(value)
+            }
+            {...field}
+          >
+            <SelectTrigger id="criticality">
+              <SelectValue placeholder="Select criticality" />
+            </SelectTrigger>
+            <SelectContent position="popper">
+              {CRITICALITY_OPTIONS.map((option) => (
+                <SelectItem key={option.code} value={option.code}>
+                  {option.display}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
+      />
+      <Button type="submit" disabled={!form.formState.isValid} isPending={form.formState.isSubmitting}>
         {isEdit ? "Edit" : "Create"} allergy
       </Button>
     </form>
