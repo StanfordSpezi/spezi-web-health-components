@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@stanfordbdhg/spezi-web-design-system";
 import { Button, Field } from "@stanfordbdhg/spezi-web-design-system";
-import { MedicationSelect } from "@/components/MedicationSelect";
+import { MedicationSelect } from "./MedicationSelect";
 import { Medication, AllergyIntolerance} from '@medplum/fhirtypes'
 import { ALLERGY_TYPE_OPTIONS, CLINICAL_STATUS_CODING_SYSTEM, CLINICAL_STATUS_OPTIONS, CRITICALITY_OPTIONS, FHIR_ALLERGY_INTOLERANCE_RESOURCE_TYPE, FHIRAllergyClinicalStatus, FHIRAllergyCriticality, FHIRAllergyIntoleranceType, FHIRAllergyIntoleranceValidationSchema, VERIFICATION_STATUS_CODING_SYSTEM} from "@/modules/fhir/allergy-intolerance";
 

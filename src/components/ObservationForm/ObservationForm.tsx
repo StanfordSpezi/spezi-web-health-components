@@ -84,6 +84,7 @@ export const ObservationForm = ({
         control={form.control}
         name="status"
         label="Status"
+        
         render={({ field }) => (
           <Select onValueChange={field.onChange} {...field}>
             <SelectTrigger>
