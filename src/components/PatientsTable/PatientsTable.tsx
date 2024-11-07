@@ -10,7 +10,7 @@ import { createColumnHelper } from '@tanstack/table-core'
 import {
   DataTable,
   type DataTableProps,
-} from '@stanfordbdhg/spezi-web-design-system'
+} from '@stanfordspezi/spezi-web-design-system'
 import { PatientMenu } from './PatientMenu'
 import { Patient } from '@medplum/fhirtypes'
 

@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
-import { useForm } from "@stanfordbdhg/spezi-web-design-system";
+import { useForm } from '@stanfordspezi/spezi-web-design-system';
 import { z } from "zod";
 import {
   Select,
@@ -14,8 +14,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@stanfordbdhg/spezi-web-design-system";
-import { Button, Field } from "@stanfordbdhg/spezi-web-design-system";
+} from '@stanfordspezi/spezi-web-design-system';
+import { Button, Field } from '@stanfordspezi/spezi-web-design-system';
 import { MedicationSelect } from "./MedicationSelect";
 import { Medication, AllergyIntolerance} from '@medplum/fhirtypes'
 import { ALLERGY_TYPE_OPTIONS, CLINICAL_STATUS_CODING_SYSTEM, CLINICAL_STATUS_OPTIONS, CRITICALITY_OPTIONS, FHIR_ALLERGY_INTOLERANCE_RESOURCE_TYPE, FHIRAllergyClinicalStatus, FHIRAllergyCriticality, FHIRAllergyIntoleranceType, FHIRAllergyIntoleranceValidationSchema, VERIFICATION_STATUS_CODING_SYSTEM} from "@/modules/fhir/allergy-intolerance";
