@@ -26,8 +26,20 @@ describe('AllergyForm', () => {
     ]
     render(<AllergyForm medicationClasses={medicationClasses} onSubmit={onSubmit} />)
 
+    const allergyTypeSelector = screen.getByText('Type', { selector: 'label' })
+    expect(allergyTypeSelector).toBeInTheDocument()
+
     const medicationSelector = screen.getByRole('combobox', { name: 'Medication' })
     expect(medicationSelector).toBeInTheDocument()
+
+    const clinicalStatusSelector = screen.getByText('Clinical Status', { selector: 'label' })
+    expect(clinicalStatusSelector).toBeInTheDocument()
+
+    const criticalitySelector = screen.getByText('Criticality', { selector: 'label' })
+    expect(criticalitySelector).toBeInTheDocument()
+
+    const button = screen.getByRole('button', { name: 'Create allergy' })
+    expect(button).toBeInTheDocument()
 
     medicationSelector.click()
     expect(screen.getByText('Lisinopril')).toBeInTheDocument()
