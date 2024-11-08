@@ -18,7 +18,15 @@ import {
 import { Button, Field } from '@stanfordspezi/spezi-web-design-system';
 import { MedicationSelect } from "./MedicationSelect";
 import { Medication, AllergyIntolerance} from '@medplum/fhirtypes'
-import { ALLERGY_TYPE_OPTIONS, CLINICAL_STATUS_CODING_SYSTEM, CLINICAL_STATUS_OPTIONS, CRITICALITY_OPTIONS, FHIR_ALLERGY_INTOLERANCE_RESOURCE_TYPE, FHIRAllergyClinicalStatus, FHIRAllergyCriticality, FHIRAllergyIntoleranceType, FHIRAllergyIntoleranceValidationSchema, VERIFICATION_STATUS_CODING_SYSTEM} from "@/modules/fhir/allergy-intolerance";
+import {
+  ALLERGY_TYPE_OPTIONS,
+  CLINICAL_STATUS_CODING_SYSTEM,
+  CLINICAL_STATUS_OPTIONS,
+  CRITICALITY_OPTIONS,
+  FHIR_ALLERGY_INTOLERANCE_RESOURCE_TYPE,
+  FHIRAllergyIntoleranceValidationSchema,
+  VERIFICATION_STATUS_CODING_SYSTEM
+} from "@/modules/fhir/allergy-intolerance";
 
 export const allergyFormSchema = FHIRAllergyIntoleranceValidationSchema;
 

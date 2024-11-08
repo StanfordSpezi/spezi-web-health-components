@@ -19,11 +19,12 @@ import { Button } from '@stanfordspezi/spezi-web-design-system';
 import { Field } from '@stanfordspezi/spezi-web-design-system';
 import { Observation} from '@medplum/fhirtypes'
 import { getObservationTypeUnits, getUnitOfObservationType } from "@/utils/utils";
-import { FHIR_OBSERVATION_RESOURCE_TYPE, 
-    FHIRObservationValidationSchema, 
-    OBSERVATION_STATUS_OPTIONS, 
-    OBSERVATION_TYPE_OPTIONS, 
-    UserObservationCollection 
+import { 
+  FHIR_OBSERVATION_RESOURCE_TYPE, 
+  FHIRObservationValidationSchema, 
+  OBSERVATION_STATUS_OPTIONS, 
+  OBSERVATION_TYPE_OPTIONS, 
+  UserObservationCollection 
 } from "@/modules/fhir/observation";
 import { RXNORM_MEDICATION_CODING_SYSTEM } from "@/modules/fhir/allergy-intolerance";
 

@@ -10,7 +10,10 @@ import { tailwindColors } from './src/utils/tailwind'
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
+  content: [
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './node_modules/@stanfordspezi/spezi-web-design-system/dist/**/*.js'
+  ],
   theme: {
     extend: {
       colors: tailwindColors,

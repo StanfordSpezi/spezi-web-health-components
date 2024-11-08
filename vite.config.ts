@@ -40,5 +40,10 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./testSetup.ts'],
+    server: {
+      deps: {
+        inline: ['@stanfordspezi/spezi-web-design-system'],
+      },
+    },
   },
 })

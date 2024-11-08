@@ -8,11 +8,12 @@
 
 import { Link } from '@tanstack/react-router'
 import { Pencil, Trash } from 'lucide-react'
-import { RowDropdownMenu,
-    DropdownMenuItem,
-    ConfirmDeleteDialog,
-    useOpenState
- } from '@stanfordbdhg/spezi-web-design-system'
+import { 
+  RowDropdownMenu,
+  DropdownMenuItem,
+  ConfirmDeleteDialog
+ } from '@stanfordspezi/spezi-web-design-system'
+import { useOpenState } from '@stanfordspezi/spezi-web-design-system/utils/useOpenState'
 import { Patient } from '@medplum/fhirtypes'
 
 interface PatientMenuProps {
