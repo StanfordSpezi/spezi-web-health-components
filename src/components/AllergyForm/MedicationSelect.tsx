@@ -15,7 +15,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@stanfordspezi/spezi-web-design-system';
+} from '@stanfordspezi/spezi-web-design-system/components/Select';
 import { Medication } from '@medplum/fhirtypes'
 
 interface MedicationSelectProps extends ComponentProps<typeof Select> {

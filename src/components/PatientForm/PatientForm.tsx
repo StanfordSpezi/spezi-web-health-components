@@ -6,10 +6,11 @@
 // SPDX-License-Identifier: MIT
 //
 
-import { Input, useForm } from '@stanfordspezi/spezi-web-design-system';
+import { useForm } from '@stanfordspezi/spezi-web-design-system/forms';
+import { Input } from '@stanfordspezi/spezi-web-design-system/components/Input';
 import { z } from "zod";
-import { Button } from '@stanfordspezi/spezi-web-design-system';
-import { Field } from '@stanfordspezi/spezi-web-design-system';
+import { Button } from '@stanfordspezi/spezi-web-design-system/components/Button';
+import { Field } from '@stanfordspezi/spezi-web-design-system/forms';
 import { Patient } from "@medplum/fhirtypes";
 
 export const patientFormSchema = z.object({

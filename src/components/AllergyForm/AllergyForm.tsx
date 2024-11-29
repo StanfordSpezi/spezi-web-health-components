@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
-import { useForm } from '@stanfordspezi/spezi-web-design-system';
+import { useForm } from '@stanfordspezi/spezi-web-design-system/forms';
 import { z } from "zod";
 import {
   Select,
@@ -14,8 +14,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@stanfordspezi/spezi-web-design-system';
-import { Button, Field } from '@stanfordspezi/spezi-web-design-system';
+} from '@stanfordspezi/spezi-web-design-system/components/Select';
+import { Button } from '@stanfordspezi/spezi-web-design-system/components/Button';
+import { Field } from '@stanfordspezi/spezi-web-design-system/forms';
 import { MedicationSelect } from "./MedicationSelect";
 import { Medication, AllergyIntolerance} from '@medplum/fhirtypes'
 import {

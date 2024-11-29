@@ -6,7 +6,9 @@
 // SPDX-License-Identifier: MIT
 //
 
-import { Input, DatePicker, useForm } from '@stanfordspezi/spezi-web-design-system';
+import { useForm } from '@stanfordspezi/spezi-web-design-system/forms';
+import { Input } from '@stanfordspezi/spezi-web-design-system/components/Input';
+import { DatePicker } from '@stanfordspezi/spezi-web-design-system/components/DatePicker';
 import { z } from "zod";
 import {
   Select,
@@ -14,9 +16,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@stanfordspezi/spezi-web-design-system';
-import { Button } from '@stanfordspezi/spezi-web-design-system';
-import { Field } from '@stanfordspezi/spezi-web-design-system';
+} from '@stanfordspezi/spezi-web-design-system/components/Select';
+import { Button } from '@stanfordspezi/spezi-web-design-system/components/Button';
+import { Field } from '@stanfordspezi/spezi-web-design-system/forms';
 import { Observation} from '@medplum/fhirtypes'
 import { getObservationTypeUnits, getUnitOfObservationType } from "@/utils/utils";
 import { 
