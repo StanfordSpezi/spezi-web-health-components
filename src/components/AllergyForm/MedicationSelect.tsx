@@ -43,7 +43,7 @@ export const MedicationSelect = ({
               : Object.values(medicationClass.name)[0]}
           </SelectLabel>
           {medicationClass.medications.map((medication) => (
-            <SelectItem value={medication.code?.coding?.[0].code ?? ""} key={medication.code?.coding?.[0].code ?? ""}>
+            <SelectItem value={medication.code?.coding?.[0]?.code ?? ""} key={medication.code?.coding?.[0]?.code ?? ""}>
               {medication.code?.coding?.[0].display}
             </SelectItem>
           ))}
