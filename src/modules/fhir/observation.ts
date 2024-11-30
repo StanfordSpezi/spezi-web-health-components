@@ -8,28 +8,27 @@
 
 import { z } from 'zod'
 
-export const FHIR_OBSERVATION_RESOURCE_TYPE =
-  'Observation' as const
+export const FHIR_OBSERVATION_RESOURCE_TYPE = 'Observation'
 
 export enum UserObservationCollection {
-    bodyWeight = "bodyWeightObservations",
-    bloodPressure = "bloodPressureObservations",
-    creatinine = "creatinineObservations",
-    dryWeight = "dryWeightObservations",
-    eGfr = "eGfrObservations",
-    heartRate = "heartRateObservations",
-    potassium = "potassiumObservations"
+  bodyWeight = 'bodyWeightObservations',
+  bloodPressure = 'bloodPressureObservations',
+  creatinine = 'creatinineObservations',
+  dryWeight = 'dryWeightObservations',
+  eGfr = 'eGfrObservations',
+  heartRate = 'heartRateObservations',
+  potassium = 'potassiumObservations',
 }
 
 export enum FHIRObservationStatus {
-    registered = "registered",
-    preliminary = "preliminary",
-    final = "final",
-    amended = "amended",
-    corrected = "corrected",
-    cancelled = "cancelled",
-    entered_in_error = "entered-in-error",
-    unknown = "unknown"
+  registered = 'registered',
+  preliminary = 'preliminary',
+  final = 'final',
+  amended = 'amended',
+  corrected = 'corrected',
+  cancelled = 'cancelled',
+  entered_in_error = 'entered-in-error',
+  unknown = 'unknown',
 }
 
 export const FHIRObservationValidationSchema = z.object({

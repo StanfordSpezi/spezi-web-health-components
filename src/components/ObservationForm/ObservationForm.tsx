@@ -6,88 +6,98 @@
 // SPDX-License-Identifier: MIT
 //
 
-import { useForm } from '@stanfordspezi/spezi-web-design-system/forms';
-import { Input } from '@stanfordspezi/spezi-web-design-system/components/Input';
-import { DatePicker } from '@stanfordspezi/spezi-web-design-system/components/DatePicker';
-import { z } from "zod";
+import { type Observation } from '@medplum/fhirtypes'
+import { Button } from '@stanfordspezi/spezi-web-design-system/components/Button'
+import { DatePicker } from '@stanfordspezi/spezi-web-design-system/components/DatePicker'
+import { Input } from '@stanfordspezi/spezi-web-design-system/components/Input'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@stanfordspezi/spezi-web-design-system/components/Select';
-import { Button } from '@stanfordspezi/spezi-web-design-system/components/Button';
-import { Field } from '@stanfordspezi/spezi-web-design-system/forms';
-import { Observation} from '@medplum/fhirtypes'
-import { getObservationTypeUnits, getUnitOfObservationType } from "@/utils/utils";
-import { 
-  FHIR_OBSERVATION_RESOURCE_TYPE, 
-  FHIRObservationValidationSchema, 
-  OBSERVATION_STATUS_OPTIONS, 
-  OBSERVATION_TYPE_OPTIONS, 
-  UserObservationCollection 
-} from "@/modules/fhir/observation";
-import { RXNORM_MEDICATION_CODING_SYSTEM } from "@/modules/fhir/allergy-intolerance";
+} from '@stanfordspezi/spezi-web-design-system/components/Select'
+import { useForm, Field } from '@stanfordspezi/spezi-web-design-system/forms'
+import { type z } from 'zod'
+import { RXNORM_MEDICATION_CODING_SYSTEM } from '@/modules/fhir/allergy-intolerance'
+import {
+  FHIR_OBSERVATION_RESOURCE_TYPE,
+  FHIRObservationValidationSchema,
+  OBSERVATION_STATUS_OPTIONS,
+  OBSERVATION_TYPE_OPTIONS,
+  type UserObservationCollection,
+} from '@/modules/fhir/observation'
+import {
+  getObservationTypeUnits,
+  getUnitOfObservationType,
+} from '@/utils/utils'
 
-export const observationFormSchema = FHIRObservationValidationSchema;
+export const observationFormSchema = FHIRObservationValidationSchema
 
-export type ObservationFormSchema = z.infer<typeof observationFormSchema>;
+export type ObservationFormSchema = z.infer<typeof observationFormSchema>
 
 interface ObservationFormProps {
-  observation?: Observation;
-  onSubmit: (data: Observation) => Promise<void>;
+  observation?: Observation
+  onSubmit: (data: Observation) => Promise<void>
 }
 
 export const ObservationForm = ({
   observation,
   onSubmit,
 }: ObservationFormProps) => {
-  const isEdit = !!observation;
+  const isEdit = !!observation
   const form = useForm({
     formSchema: observationFormSchema,
     defaultValues: {
-        resourceType: FHIR_OBSERVATION_RESOURCE_TYPE,
-        effectiveDateTime: new Date(),
-    }
+      resourceType: FHIR_OBSERVATION_RESOURCE_TYPE,
+      effectiveDateTime: new Date(),
+    },
   })
 
-  const handleSubmit = form.handleSubmit(async (data: ObservationFormSchema) => {
-    try {
-    const obs: Observation = {
-        resourceType: FHIR_OBSERVATION_RESOURCE_TYPE,
-        status: data.status,
-        subject: { reference: 'Patient/' + observation?.subject?.reference },
-        code: {
-            coding: [{
-              system: RXNORM_MEDICATION_CODING_SYSTEM,
-              code: data.type,
-              display: OBSERVATION_TYPE_OPTIONS.find(option => option.code === data.type)?.display
-            }]
+  const handleSubmit = form.handleSubmit(
+    async (data: ObservationFormSchema) => {
+      try {
+        const obs: Observation = {
+          resourceType: FHIR_OBSERVATION_RESOURCE_TYPE,
+          status: data.status,
+          subject: {
+            reference: `Patient/${observation?.subject?.reference}`,
           },
-        effectiveDateTime: data.effectiveDateTime.toISOString(),
-        valueQuantity: {
+          code: {
+            coding: [
+              {
+                system: RXNORM_MEDICATION_CODING_SYSTEM,
+                code: data.type,
+                display: OBSERVATION_TYPE_OPTIONS.find(
+                  (option) => option.code === data.type,
+                )?.display,
+              },
+            ],
+          },
+          effectiveDateTime: data.effectiveDateTime.toISOString(),
+          valueQuantity: {
             value: data.value,
-            unit: data.unit
-        } 
-    };
-    return await onSubmit(obs);
-    } catch (error) {
-        console.error("Form submission error:", error);
-        throw error;
-    }
-  });
+            unit: data.unit,
+          },
+        }
+        await onSubmit(obs)
+        return
+      } catch (error) {
+        console.error('Form submission error:', error)
+        throw error
+      }
+    },
+  )
 
   const [formType, formUnit] = form.watch(['type', 'unit'])
   const units = getObservationTypeUnits(formType)
-  
+
   return (
     <form onSubmit={handleSubmit}>
       <Field
         control={form.control}
         name="status"
         label="Status"
-        
         render={({ field }) => (
           <Select onValueChange={field.onChange} {...field}>
             <SelectTrigger>
@@ -167,25 +177,29 @@ export const ObservationForm = ({
           />
         )}
       />
-     <Field
+      <Field
         control={form.control}
         name="effectiveDateTime"
         label="Date"
         render={({ field }) => (
-            <DatePicker
-              mode="single"
-              selected={field.value}
-              onSelect={(date) => {
-                field.onChange(date)
-              }}
-              defaultMonth={new Date()}
-              toYear={new Date().getFullYear()}
-            /> 
+          <DatePicker
+            mode="single"
+            selected={field.value}
+            onSelect={(date) => {
+              field.onChange(date)
+            }}
+            defaultMonth={new Date()}
+            toYear={new Date().getFullYear()}
+          />
         )}
       />
-      <Button type="submit" disabled={!form.formState.isValid} isPending={form.formState.isSubmitting}>
-        {isEdit ? "Edit" : "Create"} observation
+      <Button
+        type="submit"
+        disabled={!form.formState.isValid}
+        isPending={form.formState.isSubmitting}
+      >
+        {isEdit ? 'Edit' : 'Create'} observation
       </Button>
     </form>
-  );
-};
+  )
+}

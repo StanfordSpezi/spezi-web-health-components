@@ -13,7 +13,7 @@ export const FHIRCodableConceptValidationSchema = z.object({
     .array(
       z.object({
         system: z.string(),
-        code: z.string(), 
+        code: z.string(),
         display: z.string().optional(),
       }),
     )

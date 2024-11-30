@@ -12,7 +12,7 @@ import { PatientForm } from '.'
 describe('PatientForm', () => {
   it('renders element', () => {
     const onSubmit = vitest.fn()
-    
+
     render(<PatientForm onSubmit={onSubmit} />)
 
     const firstNameInput = screen.getByRole('textbox', { name: 'First Name' })
@@ -24,4 +24,4 @@ describe('PatientForm', () => {
     const button = screen.getByRole('button', { name: 'Create patient' })
     expect(button).toBeInTheDocument()
   })
-})  
+})

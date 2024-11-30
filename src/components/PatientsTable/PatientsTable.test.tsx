@@ -6,19 +6,25 @@
 // SPDX-License-Identifier: MIT
 //
 
+import { type Patient } from '@medplum/fhirtypes'
 import { render, screen } from '@testing-library/react'
 import { PatientsTable } from '.'
-import { Patient } from '@medplum/fhirtypes'
 
 describe('PatientsTable', () => {
   it('renders element', () => {
     const onDelete = vitest.fn()
     const editRoute = '/patients/edit'
-    const data: Patient[] = [{ id: '1', name: [{ given: ['Leland'], family: 'Stanford' }] } as Patient]
+    const data: Patient[] = [
+      { id: '1', name: [{ given: ['Leland'], family: 'Stanford' }] } as Patient,
+    ]
 
-    render(<PatientsTable onDelete={onDelete} editRoute={editRoute} data={data} />)
+    render(
+      <PatientsTable onDelete={onDelete} editRoute={editRoute} data={data} />,
+    )
 
-    const firstNameHeader = screen.getByText('First Name', { selector: 'button' })
+    const firstNameHeader = screen.getByText('First Name', {
+      selector: 'button',
+    })
     expect(firstNameHeader).toBeInTheDocument()
 
     const lastNameHeader = screen.getByText('Last Name', { selector: 'button' })

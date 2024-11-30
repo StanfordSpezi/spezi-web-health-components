@@ -6,19 +6,17 @@
 // SPDX-License-Identifier: MIT
 //
 
-import { useForm } from '@stanfordspezi/spezi-web-design-system/forms';
-import { z } from "zod";
+import { type Medication, type AllergyIntolerance } from '@medplum/fhirtypes'
+import { Button } from '@stanfordspezi/spezi-web-design-system/components/Button'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@stanfordspezi/spezi-web-design-system/components/Select';
-import { Button } from '@stanfordspezi/spezi-web-design-system/components/Button';
-import { Field } from '@stanfordspezi/spezi-web-design-system/forms';
-import { MedicationSelect } from "./MedicationSelect";
-import { Medication, AllergyIntolerance} from '@medplum/fhirtypes'
+} from '@stanfordspezi/spezi-web-design-system/components/Select'
+import { useForm, Field } from '@stanfordspezi/spezi-web-design-system/forms'
+import { type z } from 'zod'
 import {
   ALLERGY_TYPE_OPTIONS,
   CLINICAL_STATUS_CODING_SYSTEM,
@@ -26,21 +24,22 @@ import {
   CRITICALITY_OPTIONS,
   FHIR_ALLERGY_INTOLERANCE_RESOURCE_TYPE,
   FHIRAllergyIntoleranceValidationSchema,
-  VERIFICATION_STATUS_CODING_SYSTEM
-} from "@/modules/fhir/allergy-intolerance";
+  VERIFICATION_STATUS_CODING_SYSTEM,
+} from '@/modules/fhir/allergy-intolerance'
+import { MedicationSelect } from './MedicationSelect'
 
-export const allergyFormSchema = FHIRAllergyIntoleranceValidationSchema;
+export const allergyFormSchema = FHIRAllergyIntoleranceValidationSchema
 
-export type AllergyFormSchema = z.infer<typeof allergyFormSchema>;
+export type AllergyFormSchema = z.infer<typeof allergyFormSchema>
 
 interface AllergyFormProps {
-  allergy?: AllergyIntolerance;
-  medicationClasses: {
-    id: string;
-    name: string | Record<string, string>;
-    medications: Medication[];
-  }[];
-  onSubmit: (data: AllergyIntolerance) => Promise<void>;
+  allergy?: AllergyIntolerance
+  medicationClasses: Array<{
+    id: string
+    name: string | Record<string, string>
+    medications: Medication[]
+  }>
+  onSubmit: (data: AllergyIntolerance) => Promise<void>
 }
 
 export const AllergyForm = ({
@@ -48,14 +47,14 @@ export const AllergyForm = ({
   onSubmit,
   medicationClasses,
 }: AllergyFormProps) => {
-  const isEdit = !!allergy;
+  const isEdit = !!allergy
   const form = useForm({
     formSchema: allergyFormSchema,
     defaultValues: {
       resourceType: FHIR_ALLERGY_INTOLERANCE_RESOURCE_TYPE,
       category: ['medication'],
-    }
-  });
+    },
+  })
 
   const handleSubmit = form.handleSubmit(async (data: AllergyFormSchema) => {
     try {
@@ -64,29 +63,33 @@ export const AllergyForm = ({
         type: data.type,
         clinicalStatus: data.clinicalStatus,
         verificationStatus: {
-          coding: [{
-            system: VERIFICATION_STATUS_CODING_SYSTEM,
-            display: 'Confirmed',
-            code: 'confirmed'
-          }]
+          coding: [
+            {
+              system: VERIFICATION_STATUS_CODING_SYSTEM,
+              display: 'Confirmed',
+              code: 'confirmed',
+            },
+          ],
         },
         category: ['medication'],
         criticality: data.criticality,
         code: {
-          coding: [{
-            system: data.code.coding[0].system,
-            code: data.code.coding[0].code,
-            display: data.code.coding[0].display
-          }]
+          coding: [
+            {
+              system: data.code.coding[0].system,
+              code: data.code.coding[0].code,
+              display: data.code.coding[0].display,
+            },
+          ],
         },
-        patient: { reference: allergy?.patient?.reference }
-      };
-      await onSubmit(allergyIntolerance);
+        patient: { reference: allergy?.patient.reference },
+      }
+      await onSubmit(allergyIntolerance)
     } catch (error) {
-      console.error("Form submission error:", error);
-      throw error;
+      console.error('Form submission error:', error)
+      throw error
     }
-  });
+  })
 
   return (
     <form onSubmit={handleSubmit}>
@@ -95,10 +98,10 @@ export const AllergyForm = ({
         name="type"
         label="Type"
         render={({ field }) => (
-          <Select onValueChange={(value) => field.onChange(value)} {...field} >
+          <Select onValueChange={(value) => field.onChange(value)} {...field}>
             <SelectTrigger id="type">
               <SelectValue placeholder="Type" />
-            </SelectTrigger >
+            </SelectTrigger>
             <SelectContent>
               {ALLERGY_TYPE_OPTIONS.map((option) => (
                 <SelectItem key={option.code} value={option.code}>
@@ -117,14 +120,18 @@ export const AllergyForm = ({
           <MedicationSelect
             medicationClasses={medicationClasses}
             onValueChange={(value) => {
-              const medications = medicationClasses.flatMap(medicationClass => medicationClass.medications)
-              const coding = medications.find(medication => medication.code?.coding?.[0].code === value)?.code?.coding?.[0]
-              return field.onChange({
+              const medications = medicationClasses.flatMap(
+                (medicationClass) => medicationClass.medications,
+              )
+              const coding = medications.find(
+                (medication) => medication.code?.coding?.[0].code === value,
+              )?.code?.coding?.[0]
+              field.onChange({
                 coding: [
                   {
                     system: coding?.system,
                     code: coding?.code,
-                    display: coding?.display
+                    display: coding?.display,
                   },
                 ],
               })
@@ -138,14 +145,14 @@ export const AllergyForm = ({
         label="Clinical Status"
         render={({ field }) => (
           <Select
-            value={field.value?.coding?.[0]?.code}
+            value={field.value.coding[0]?.code}
             onValueChange={(value) =>
               field.onChange({
                 coding: [
                   {
                     system: CLINICAL_STATUS_CODING_SYSTEM,
                     code: value,
-                    display: value
+                    display: value,
                   },
                 ],
               })
@@ -169,12 +176,7 @@ export const AllergyForm = ({
         name="criticality"
         label="Criticality"
         render={({ field }) => (
-          <Select
-            onValueChange={(value) =>
-              field.onChange(value)
-            }
-            {...field}
-          >
+          <Select onValueChange={(value) => field.onChange(value)} {...field}>
             <SelectTrigger id="criticality">
               <SelectValue placeholder="Select criticality" />
             </SelectTrigger>
@@ -188,9 +190,13 @@ export const AllergyForm = ({
           </Select>
         )}
       />
-      <Button type="submit" disabled={!form.formState.isValid} isPending={form.formState.isSubmitting}>
-        {isEdit ? "Edit" : "Create"} allergy
+      <Button
+        type="submit"
+        disabled={!form.formState.isValid}
+        isPending={form.formState.isSubmitting}
+      >
+        {isEdit ? 'Edit' : 'Create'} allergy
       </Button>
     </form>
-  );
-};
+  )
+}

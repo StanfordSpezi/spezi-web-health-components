@@ -6,32 +6,44 @@
 // SPDX-License-Identifier: MIT
 //
 
-import { createColumnHelper } from '@tanstack/table-core'
+import { type Patient } from '@medplum/fhirtypes'
 import {
   DataTable,
   type DataTableProps,
 } from '@stanfordspezi/spezi-web-design-system/components/DataTable'
+import { createColumnHelper } from '@tanstack/table-core'
 import { PatientMenu } from './PatientMenu'
-import { Patient } from '@medplum/fhirtypes'
 
 interface PatientsDataTableProps
   extends Omit<DataTableProps<Patient>, 'columns'> {
-    onRowClick?: (data: Patient) => void;
-    onDelete: (data: Patient) => void;
-    editRoute: string;
-  }
+  onRowClick?: (data: Patient) => void
+  onDelete: (data: Patient) => void
+  editRoute: string
+}
 
-export const PatientsTable = ({ data, onRowClick, onDelete, editRoute, ...props }: PatientsDataTableProps) => {
-    const columnHelper = createColumnHelper<Patient>()
-    
-    const columns = [
+export const PatientsTable = ({
+  data,
+  onRowClick,
+  onDelete,
+  editRoute,
+  ...props
+}: PatientsDataTableProps) => {
+  const columnHelper = createColumnHelper<Patient>()
+
+  const columns = [
     { header: 'First Name', accessorKey: 'name.0.given' },
     { header: 'Last Name', accessorKey: 'name.0.family' },
-      columnHelper.display({
-        id: 'actions',
-        cell: (props) => <PatientMenu onDelete={onDelete} editRoute={editRoute} data={props.row.original}/>,
-      }),
-    ]
+    columnHelper.display({
+      id: 'actions',
+      cell: (props) => (
+        <PatientMenu
+          onDelete={onDelete}
+          editRoute={editRoute}
+          data={props.row.original}
+        />
+      ),
+    }),
+  ]
 
   return (
     <DataTable

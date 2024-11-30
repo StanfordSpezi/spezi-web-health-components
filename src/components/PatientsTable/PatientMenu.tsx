@@ -6,12 +6,16 @@
 // SPDX-License-Identifier: MIT
 //
 
+import { type Patient } from '@medplum/fhirtypes'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '@stanfordspezi/spezi-web-design-system/components/DropdownMenu'
+import { ConfirmDeleteDialog } from '@stanfordspezi/spezi-web-design-system/molecules/ConfirmDeleteDialog'
+import { useOpenState } from '@stanfordspezi/spezi-web-design-system/utils/useOpenState'
 import { Link } from '@tanstack/react-router'
 import { Pencil, Trash } from 'lucide-react'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from '@stanfordspezi/spezi-web-design-system/components/DropdownMenu';
-import { ConfirmDeleteDialog } from '@stanfordspezi/spezi-web-design-system/molecules/ConfirmDeleteDialog';
-import { useOpenState } from '@stanfordspezi/spezi-web-design-system/utils/useOpenState'
-import { Patient } from '@medplum/fhirtypes'
 
 interface PatientMenuProps {
   onDelete: (data: Patient) => void
@@ -19,8 +23,12 @@ interface PatientMenuProps {
   data: Patient
 }
 
-export const PatientMenu = ({ onDelete, editRoute, data }: PatientMenuProps) => {
-const deleteConfirm = useOpenState()
+export const PatientMenu = ({
+  onDelete,
+  editRoute,
+  data,
+}: PatientMenuProps) => {
+  const deleteConfirm = useOpenState()
 
   return (
     <>
@@ -35,9 +43,9 @@ const deleteConfirm = useOpenState()
           <DropdownMenuItem asChild>
             <Link to={editRoute}>
               <Pencil />
-            Edit
-          </Link>
-        </DropdownMenuItem>
+              Edit
+            </Link>
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={deleteConfirm.open}>
             <Trash />
             Delete

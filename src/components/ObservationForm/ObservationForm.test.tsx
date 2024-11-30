@@ -12,7 +12,7 @@ import { ObservationForm } from '.'
 describe('ObservationForm', () => {
   it('renders element', () => {
     const onSubmit = vitest.fn()
-    
+
     render(<ObservationForm onSubmit={onSubmit} />)
 
     const statusSelector = screen.getByText('Status', { selector: 'label' })

@@ -6,24 +6,21 @@
 // SPDX-License-Identifier: MIT
 //
 
+import { type CodeableConcept } from '@medplum/fhirtypes'
 import { z } from 'zod'
-import { CodeableConcept } from '@medplum/fhirtypes'
-import {
-  FHIRCodableConceptValidationSchema,
-} from '@/modules/fhir/base'
+import { FHIRCodableConceptValidationSchema } from '@/modules/fhir/base'
 
-export const FHIR_ALLERGY_INTOLERANCE_RESOURCE_TYPE =
-  'AllergyIntolerance' as const
+export const FHIR_ALLERGY_INTOLERANCE_RESOURCE_TYPE = 'AllergyIntolerance'
 // noinspection HttpUrlsUsage
-export const SNOMED_CODING_SYSTEM = 'http://snomed.info/sct' as const
+export const SNOMED_CODING_SYSTEM = 'http://snomed.info/sct'
 export const RXNORM_MEDICATION_CODING_SYSTEM =
-  'http://www.nlm.nih.gov/research/umls/rxnorm' as const
+  'http://www.nlm.nih.gov/research/umls/rxnorm'
 // noinspection HttpUrlsUsage
 export const CLINICAL_STATUS_CODING_SYSTEM =
-  'http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical' as const
+  'http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical'
 // noinspection HttpUrlsUsage
 export const VERIFICATION_STATUS_CODING_SYSTEM =
-  'http://terminology.hl7.org/CodeSystem/allergyintolerance-verification' as const
+  'http://terminology.hl7.org/CodeSystem/allergyintolerance-verification'
 
 export enum FHIRAllergyIntoleranceType {
   // FHIR allergy intolerance type
@@ -77,11 +74,11 @@ export const FHIRAllergyIntoleranceValidationSchema = z.object({
   resourceType: z.literal(FHIR_ALLERGY_INTOLERANCE_RESOURCE_TYPE),
   type: z.nativeEnum(FHIRAllergyIntoleranceType),
   clinicalStatus: FHIRCodableConceptValidationSchema,
-//   verificationStatus: FHIRCodableConceptValidationSchema,
+  //   verificationStatus: FHIRCodableConceptValidationSchema,
   category: z.array(z.literal('medication')),
   code: FHIRCodableConceptValidationSchema,
   criticality: z.nativeEnum(FHIRAllergyCriticality),
-//   reaction: z.array(FHIRAllergyIntoleranceReactionValidationSchema),
+  //   reaction: z.array(FHIRAllergyIntoleranceReactionValidationSchema),
 })
 
 export const ALLERGY_TYPE_OPTIONS = [
