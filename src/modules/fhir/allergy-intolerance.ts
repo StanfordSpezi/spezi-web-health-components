@@ -63,22 +63,13 @@ export interface FHIRAllergyIntoleranceReaction {
   severity: FHIRAllergyReactionSeverity
 }
 
-const FHIRAllergyIntoleranceReactionValidationSchema = z.object({
-  manifestation: z
-    .array(FHIRCodableConceptValidationSchema)
-    .min(1, 'At least one manifestation is required'),
-  severity: z.string(),
-})
-
 export const FHIRAllergyIntoleranceValidationSchema = z.object({
   resourceType: z.literal(FHIR_ALLERGY_INTOLERANCE_RESOURCE_TYPE),
   type: z.nativeEnum(FHIRAllergyIntoleranceType),
   clinicalStatus: FHIRCodableConceptValidationSchema,
-  //   verificationStatus: FHIRCodableConceptValidationSchema,
   category: z.array(z.literal('medication')),
   code: FHIRCodableConceptValidationSchema,
   criticality: z.nativeEnum(FHIRAllergyCriticality),
-  //   reaction: z.array(FHIRAllergyIntoleranceReactionValidationSchema),
 })
 
 export const ALLERGY_TYPE_OPTIONS = [
