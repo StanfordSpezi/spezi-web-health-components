@@ -8,9 +8,8 @@
 
 import { Link } from '@tanstack/react-router'
 import { Pencil, Trash } from 'lucide-react'
-import { DropdownMenuItem } from '@stanfordspezi/spezi-web-design-system/components/DropdownMenu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from '@stanfordspezi/spezi-web-design-system/components/DropdownMenu';
 import { ConfirmDeleteDialog } from '@stanfordspezi/spezi-web-design-system/molecules/ConfirmDeleteDialog';
-import { DropdownMenu } from '@stanfordspezi/spezi-web-design-system/components/DropdownMenu';
 import { useOpenState } from '@stanfordspezi/spezi-web-design-system/utils/useOpenState'
 import { Patient } from '@medplum/fhirtypes'
 
@@ -32,16 +31,18 @@ const deleteConfirm = useOpenState()
         onDelete={() => onDelete(data)}
       />
       <DropdownMenu>
-        <DropdownMenuItem asChild>
-          <Link to={editRoute}>
-            <Pencil />
+        <DropdownMenuContent>
+          <DropdownMenuItem asChild>
+            <Link to={editRoute}>
+              <Pencil />
             Edit
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={deleteConfirm.open}>
-          <Trash />
-          Delete
-        </DropdownMenuItem>
+          <DropdownMenuItem onClick={deleteConfirm.open}>
+            <Trash />
+            Delete
+          </DropdownMenuItem>
+        </DropdownMenuContent>
       </DropdownMenu>
     </>
   )
