@@ -145,7 +145,6 @@ export const AllergyForm = ({
         label="Clinical Status"
         render={({ field }) => (
           <Select
-            value={field.value.coding[0]?.code}
             onValueChange={(value) =>
               field.onChange({
                 coding: [
