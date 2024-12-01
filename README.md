@@ -12,7 +12,7 @@ SPDX-License-Identifier: MIT
 
 [![Build and Test](https://github.com/StanfordSpezi/spezi-web-health-components/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/StanfordSpezi/spezi-web-health-components/actions/workflows/build-and-test.yml)
 [![Deployment](https://github.com/StanfordSpezi/spezi-web-health-components/actions/workflows/main.yml/badge.svg)](https://github.com/StanfordSpezi/spezi-web-health-components/actions/workflows/main.yml)
-[![codecov](https://codecov.io/gh/StanfordSpezispezi-web-health-components/graph/badge.svg?token=dfQW5eZ2up)](https://codecov.io/gh/StanfordSpezi/spezi-web-health-components)
+[![codecov](https://codecov.io/gh/StanfordSpezi/spezi-web-health-components/graph/badge.svg?token=dfQW5eZ2up)](https://codecov.io/gh/StanfordSpezi/spezi-web-health-components)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10052055.svg)](https://doi.org/10.5281/zenodo.10052055)
 
 ## Getting Started
