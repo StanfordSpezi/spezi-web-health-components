@@ -30,7 +30,7 @@ describe('AllergyForm', () => {
       <AllergyForm medicationClasses={medicationClasses} onSubmit={onSubmit} />,
     )
 
-    const allergyTypeSelector = screen.getByText('Type', { selector: 'label' })
+    const allergyTypeInput = screen.getByLabelText('Type')
     expect(allergyTypeSelector).toBeInTheDocument()
 
     const medicationSelector = screen.getByRole('combobox', {
