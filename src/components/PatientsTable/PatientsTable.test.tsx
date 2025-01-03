@@ -13,27 +13,22 @@ import { PatientsTable } from '.'
 describe('PatientsTable', () => {
   it('renders element', () => {
     const onDelete = vitest.fn()
-    const editRoute = '/patients/edit'
-    const data: Patient[] = [
+    const data = [
       { id: '1', name: [{ given: ['Leland'], family: 'Stanford' }] } as Patient,
     ]
 
     render(
-      <PatientsTable onDelete={onDelete} editRoute={editRoute} data={data} />,
+      <PatientsTable
+        onDelete={onDelete}
+        editRoute={(patientId) => `/patients/edit/${patientId}`}
+        data={data}
+      />,
     )
 
-    const firstNameHeader = screen.getByText('First Name', {
-      selector: 'button',
-    })
-    expect(firstNameHeader).toBeInTheDocument()
+    expect(screen.getByText('First Name')).toBeInTheDocument()
+    expect(screen.getByText('Last Name')).toBeInTheDocument()
 
-    const lastNameHeader = screen.getByText('Last Name', { selector: 'button' })
-    expect(lastNameHeader).toBeInTheDocument()
-
-    const firstNameCell = screen.getByText('Leland', { selector: 'td' })
-    expect(firstNameCell).toBeInTheDocument()
-
-    const lastNameCell = screen.getByText('Stanford', { selector: 'td' })
-    expect(lastNameCell).toBeInTheDocument()
+    expect(screen.getByText('Leland')).toBeInTheDocument()
+    expect(screen.getByText('Stanford')).toBeInTheDocument()
   })
 })

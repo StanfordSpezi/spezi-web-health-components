@@ -6,52 +6,56 @@
 // SPDX-License-Identifier: MIT
 //
 
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+
 import { type Medication } from '@medplum/fhirtypes'
 import { render, screen } from '@testing-library/react'
 import { AllergyForm } from '.'
 
+const onSubmit = vi.fn()
+
+beforeEach(() => {
+  onSubmit.mockClear()
+  const medicationClasses = [
+    {
+      id: '1',
+      name: 'ACE Inhibitors',
+      medications: [
+        {
+          resourceType: 'Medication',
+          id: '1',
+          code: { coding: [{ code: '123', display: 'Lisinopril' }] },
+        } as Medication,
+      ],
+    },
+  ]
+  render(
+    <AllergyForm medicationClasses={medicationClasses} onSubmit={onSubmit} />,
+  )
+})
+
 describe('AllergyForm', () => {
   it('renders element', () => {
-    const onSubmit = vitest.fn()
-    const medicationClasses = [
-      {
-        id: '1',
-        name: 'ACE Inhibitors',
-        medications: [
-          {
-            resourceType: 'Medication',
-            id: '1',
-            code: { coding: [{ code: '123', display: 'Lisinopril' }] },
-          } as Medication,
-        ],
-      },
-    ]
-    render(
-      <AllergyForm medicationClasses={medicationClasses} onSubmit={onSubmit} />,
-    )
-
     const allergyTypeInput = screen.getByLabelText('Type')
     expect(allergyTypeInput).toBeInTheDocument()
 
-    const medicationSelector = screen.getByRole('combobox', {
+    const medicationInput = screen.getByRole('combobox', {
       name: 'Medication',
     })
-    expect(medicationSelector).toBeInTheDocument()
+    expect(medicationInput).toBeInTheDocument()
 
-    const clinicalStatusSelector = screen.getByText('Clinical Status', {
-      selector: 'label',
-    })
-    expect(clinicalStatusSelector).toBeInTheDocument()
+    const clinicalStatusInput = screen.getByLabelText('Clinical Status')
+    expect(clinicalStatusInput).toBeInTheDocument()
 
-    const criticalitySelector = screen.getByText('Criticality', {
-      selector: 'label',
-    })
-    expect(criticalitySelector).toBeInTheDocument()
+    const criticalityInput = screen.getByLabelText('Criticality')
+    expect(criticalityInput).toBeInTheDocument()
 
     const button = screen.getByRole('button', { name: 'Create allergy' })
     expect(button).toBeInTheDocument()
 
-    medicationSelector.click()
+    medicationInput.click()
     expect(screen.getByText('Lisinopril')).toBeInTheDocument()
   })
 })

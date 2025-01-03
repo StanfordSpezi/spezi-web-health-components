@@ -7,8 +7,7 @@
 //
 
 import { z } from 'zod'
-
-export const FHIR_OBSERVATION_RESOURCE_TYPE = 'Observation'
+import { FHIRResourceType } from './base'
 
 export enum UserObservationCollection {
   bodyWeight = 'bodyWeightObservations',
@@ -27,12 +26,12 @@ export enum FHIRObservationStatus {
   amended = 'amended',
   corrected = 'corrected',
   cancelled = 'cancelled',
-  entered_in_error = 'entered-in-error',
+  enteredInError = 'entered-in-error',
   unknown = 'unknown',
 }
 
-export const FHIRObservationValidationSchema = z.object({
-  resourceType: z.literal(FHIR_OBSERVATION_RESOURCE_TYPE),
+export const fhirObservationValidationSchema = z.object({
+  resourceType: z.literal(FHIRResourceType.Observation),
   type: z.nativeEnum(UserObservationCollection),
   status: z.nativeEnum(FHIRObservationStatus),
   effectiveDateTime: z.date(),
@@ -40,18 +39,18 @@ export const FHIRObservationValidationSchema = z.object({
   value: z.number(),
 })
 
-export const OBSERVATION_STATUS_OPTIONS = [
+export const observationStatusOptions = [
   { code: FHIRObservationStatus.registered, display: 'Registered' },
   { code: FHIRObservationStatus.preliminary, display: 'Preliminary' },
   { code: FHIRObservationStatus.final, display: 'Final' },
   { code: FHIRObservationStatus.amended, display: 'Amended' },
   { code: FHIRObservationStatus.corrected, display: 'Corrected' },
   { code: FHIRObservationStatus.cancelled, display: 'Cancelled' },
-  { code: FHIRObservationStatus.entered_in_error, display: 'Entered in Error' },
+  { code: FHIRObservationStatus.enteredInError, display: 'Entered in Error' },
   { code: FHIRObservationStatus.unknown, display: 'Unknown' },
 ]
 
-export const OBSERVATION_TYPE_OPTIONS = [
+export const observationTypeOptions = [
   { code: UserObservationCollection.bodyWeight, display: 'Body Weight' },
   { code: UserObservationCollection.bloodPressure, display: 'Blood Pressure' },
   { code: UserObservationCollection.creatinine, display: 'Creatinine' },

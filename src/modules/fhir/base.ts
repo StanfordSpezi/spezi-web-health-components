@@ -6,19 +6,19 @@
 // SPDX-License-Identifier: MIT
 //
 
-import { z } from 'zod'
-
-export const FHIRCodableConceptValidationSchema = z.object({
-  coding: z
-    .array(
-      z.object({
-        system: z.string(),
-        code: z.string(),
-        display: z.string().optional(),
-      }),
-    )
-    .min(1),
-})
+// import { z } from 'zod'
+//
+// export const fhirCodableConceptSchema = z.object({
+//   coding: z
+//     .array(
+//       z.object({
+//         system: z.string(),
+//         code: z.string(),
+//         display: z.string().optional(),
+//       }),
+//     )
+//     .min(1),
+// })
 
 export interface FHIRBundleResource {
   resourceType: string
@@ -29,4 +29,9 @@ export interface FHIRBundleEntry<
 > {
   fullUrl?: string
   resource: Resource
+}
+
+export enum FHIRResourceType {
+  Observation = 'Observation',
+  AllergyIntolerance = 'AllergyIntolerance',
 }

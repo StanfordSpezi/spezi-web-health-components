@@ -17,11 +17,12 @@ import {
   SelectValue,
 } from '@stanfordspezi/spezi-web-design-system/components/Select'
 import { type ComponentProps } from 'react'
+import { parseLocalizedText, type LocalizedText } from '@/types/localizedText'
 
 interface MedicationSelectProps extends ComponentProps<typeof Select> {
   medicationClasses: Array<{
     id: string
-    name: string | Record<string, string>
+    name: LocalizedText
     medications: Medication[]
   }>
 }
@@ -37,17 +38,13 @@ export const MedicationSelect = ({
     <SelectContent>
       {medicationClasses.map((medicationClass) => (
         <SelectGroup key={medicationClass.id}>
-          <SelectLabel>
-            {typeof medicationClass.name === 'string' ?
-              medicationClass.name
-            : Object.values(medicationClass.name)[0]}
-          </SelectLabel>
+          <SelectLabel>{parseLocalizedText(medicationClass.name)}</SelectLabel>
           {medicationClass.medications.map((medication) => (
             <SelectItem
-              value={medication.code?.coding?.[0]?.code ?? ''}
-              key={medication.code?.coding?.[0]?.code ?? ''}
+              value={medication.code?.coding?.at(0)?.code ?? ''}
+              key={medication.code?.coding?.at(0)?.code ?? ''}
             >
-              {medication.code?.coding?.[0].display}
+              {medication.code?.coding?.at(0)?.display}
             </SelectItem>
           ))}
         </SelectGroup>

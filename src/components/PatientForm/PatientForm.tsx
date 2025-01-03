@@ -21,13 +21,20 @@ export type PatientFormSchema = z.infer<typeof patientFormSchema>
 
 interface PatientFormProps {
   patient?: Patient
-  onSubmit: (data: Patient) => Promise<void>
+  onSubmit: (patient: Patient) => Promise<void>
 }
 
 export const PatientForm = ({ patient, onSubmit }: PatientFormProps) => {
   const isEdit = !!patient
   const form = useForm({
     formSchema: patientFormSchema,
+    defaultValues:
+      patient ?
+        {
+          firstName: patient.name?.at(0)?.given?.at(0) ?? '',
+          lastName: patient.name?.at(0)?.family ?? '',
+        }
+      : undefined,
   })
 
   const handleSubmit = form.handleSubmit(async (data: PatientFormSchema) => {

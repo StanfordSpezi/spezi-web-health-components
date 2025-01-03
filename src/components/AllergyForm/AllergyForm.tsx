@@ -18,17 +18,18 @@ import {
 import { useForm, Field } from '@stanfordspezi/spezi-web-design-system/forms'
 import { type z } from 'zod'
 import {
-  ALLERGY_TYPE_OPTIONS,
-  CLINICAL_STATUS_CODING_SYSTEM,
-  CLINICAL_STATUS_OPTIONS,
-  CRITICALITY_OPTIONS,
-  FHIR_ALLERGY_INTOLERANCE_RESOURCE_TYPE,
-  FHIRAllergyIntoleranceValidationSchema,
-  VERIFICATION_STATUS_CODING_SYSTEM,
-} from '@/modules/fhir/allergy-intolerance'
+  allergyTypeOptions,
+  clinicalStatusCodingSystem,
+  clinicalStatusOptions,
+  criticalityOptions,
+  fhirAllergyIntoleranceSchema,
+  verificationStatusCodingSystem,
+} from '@/modules/fhir/allergyIntolerance'
+import { FHIRResourceType } from '@/modules/fhir/base'
+import { type LocalizedText } from '@/types/localizedText'
 import { MedicationSelect } from './MedicationSelect'
 
-export const allergyFormSchema = FHIRAllergyIntoleranceValidationSchema
+export const allergyFormSchema = fhirAllergyIntoleranceSchema
 
 export type AllergyFormSchema = z.infer<typeof allergyFormSchema>
 
@@ -36,10 +37,10 @@ interface AllergyFormProps {
   allergy?: AllergyIntolerance
   medicationClasses: Array<{
     id: string
-    name: string | Record<string, string>
+    name: LocalizedText
     medications: Medication[]
   }>
-  onSubmit: (data: AllergyIntolerance) => Promise<void>
+  onSubmit: (allergyIntolerance: AllergyIntolerance) => Promise<void>
 }
 
 export const AllergyForm = ({
@@ -51,21 +52,30 @@ export const AllergyForm = ({
   const form = useForm({
     formSchema: allergyFormSchema,
     defaultValues: {
-      resourceType: FHIR_ALLERGY_INTOLERANCE_RESOURCE_TYPE,
+      resourceType: FHIRResourceType.AllergyIntolerance,
       category: ['medication'],
     },
   })
 
-  const handleSubmit = form.handleSubmit(async (data: AllergyFormSchema) => {
+  const handleSubmit = form.handleSubmit(async (data) => {
+    console.log('Form values before submission:', data)
     try {
       const allergyIntolerance: AllergyIntolerance = {
         resourceType: data.resourceType,
         type: data.type,
-        clinicalStatus: data.clinicalStatus,
+        clinicalStatus: {
+          coding: [
+            {
+              system: clinicalStatusCodingSystem,
+              code: data.clinicalStatus.coding?.at(0)?.code,
+              display: data.clinicalStatus.coding?.at(0)?.display,
+            },
+          ],
+        },
         verificationStatus: {
           coding: [
             {
-              system: VERIFICATION_STATUS_CODING_SYSTEM,
+              system: verificationStatusCodingSystem,
               display: 'Confirmed',
               code: 'confirmed',
             },
@@ -76,9 +86,9 @@ export const AllergyForm = ({
         code: {
           coding: [
             {
-              system: data.code.coding[0].system,
-              code: data.code.coding[0].code,
-              display: data.code.coding[0].display,
+              system: data.code.coding?.at(0)?.system,
+              code: data.code.coding?.at(0)?.code,
+              display: data.code.coding?.at(0)?.display,
             },
           ],
         },
@@ -103,9 +113,9 @@ export const AllergyForm = ({
               <SelectValue placeholder="Type" />
             </SelectTrigger>
             <SelectContent>
-              {ALLERGY_TYPE_OPTIONS.map((option) => (
-                <SelectItem key={option.code} value={option.code}>
-                  {option.display}
+              {allergyTypeOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -123,9 +133,12 @@ export const AllergyForm = ({
               const medications = medicationClasses.flatMap(
                 (medicationClass) => medicationClass.medications,
               )
-              const coding = medications.find(
-                (medication) => medication.code?.coding?.[0].code === value,
-              )?.code?.coding?.[0]
+              const coding = medications
+                .find(
+                  (medication) =>
+                    medication.code?.coding?.at(0)?.code === value,
+                )
+                ?.code?.coding?.at(0)
               field.onChange({
                 coding: [
                   {
@@ -149,7 +162,7 @@ export const AllergyForm = ({
               field.onChange({
                 coding: [
                   {
-                    system: CLINICAL_STATUS_CODING_SYSTEM,
+                    system: clinicalStatusCodingSystem,
                     code: value,
                     display: value,
                   },
@@ -161,9 +174,9 @@ export const AllergyForm = ({
               <SelectValue placeholder="Select clinical status" />
             </SelectTrigger>
             <SelectContent>
-              {CLINICAL_STATUS_OPTIONS.map((option) => (
-                <SelectItem key={option.code} value={option.code}>
-                  {option.display}
+              {clinicalStatusOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -179,21 +192,17 @@ export const AllergyForm = ({
             <SelectTrigger id="criticality">
               <SelectValue placeholder="Select criticality" />
             </SelectTrigger>
-            <SelectContent position="popper">
-              {CRITICALITY_OPTIONS.map((option) => (
-                <SelectItem key={option.code} value={option.code}>
-                  {option.display}
+            <SelectContent>
+              {criticalityOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         )}
       />
-      <Button
-        type="submit"
-        disabled={!form.formState.isValid}
-        isPending={form.formState.isSubmitting}
-      >
+      <Button type="submit" isPending={form.formState.isSubmitting}>
         {isEdit ? 'Edit' : 'Create'} allergy
       </Button>
     </form>

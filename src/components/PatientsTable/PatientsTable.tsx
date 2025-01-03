@@ -14,11 +14,10 @@ import {
 import { createColumnHelper } from '@tanstack/table-core'
 import { PatientMenu } from './PatientMenu'
 
-interface PatientsDataTableProps
-  extends Omit<DataTableProps<Patient>, 'columns'> {
-  onRowClick?: (data: Patient) => void
-  onDelete: (data: Patient) => void
-  editRoute: string
+interface PatientsTableProps extends Omit<DataTableProps<Patient>, 'columns'> {
+  onRowClick?: (patient: Patient) => void
+  onDelete: (patient: Patient) => void
+  editRoute: (patientId: string) => string
 }
 
 export const PatientsTable = ({
@@ -27,19 +26,20 @@ export const PatientsTable = ({
   onDelete,
   editRoute,
   ...props
-}: PatientsDataTableProps) => {
+}: PatientsTableProps) => {
   const columnHelper = createColumnHelper<Patient>()
 
   const columns = [
     { header: 'First Name', accessorKey: 'name.0.given' },
     { header: 'Last Name', accessorKey: 'name.0.family' },
+    { header: 'Contact', accessorKey: 'telecom.0.value' },
     columnHelper.display({
       id: 'actions',
       cell: (props) => (
         <PatientMenu
           onDelete={onDelete}
-          editRoute={editRoute}
-          data={props.row.original}
+          editRoute={editRoute(props.row.original.id ?? '')}
+          patient={props.row.original}
         />
       ),
     }),

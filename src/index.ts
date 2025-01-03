@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
-export * from './components/AllergyForm/AllergyForm'
-export * from './components/PatientForm/PatientForm'
-export * from './components/ObservationForm/ObservationForm'
-export * from './components/PatientsTable/PatientsTable'
+export * from './components/AllergyForm'
+export * from './components/PatientForm'
+export * from './components/ObservationForm'
+export * from './components/PatientsTable'

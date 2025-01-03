@@ -18,15 +18,15 @@ import { Link } from '@tanstack/react-router'
 import { Pencil, Trash } from 'lucide-react'
 
 interface PatientMenuProps {
-  onDelete: (data: Patient) => void
+  onDelete: (patient: Patient) => void
   editRoute: string
-  data: Patient
+  patient: Patient
 }
 
 export const PatientMenu = ({
   onDelete,
   editRoute,
-  data,
+  patient,
 }: PatientMenuProps) => {
   const deleteConfirm = useOpenState()
 
@@ -36,7 +36,7 @@ export const PatientMenu = ({
         open={deleteConfirm.isOpen}
         onOpenChange={deleteConfirm.setIsOpen}
         entityName="patient"
-        onDelete={() => onDelete(data)}
+        onDelete={() => onDelete(patient)}
       />
       <DropdownMenu>
         <DropdownMenuContent>

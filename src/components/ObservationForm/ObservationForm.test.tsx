@@ -15,18 +15,18 @@ describe('ObservationForm', () => {
 
     render(<ObservationForm onSubmit={onSubmit} />)
 
-    const statusSelector = screen.getByText('Status', { selector: 'label' })
-    expect(statusSelector).toBeInTheDocument()
-    statusSelector.click()
+    const statusInput = screen.getByLabelText('Status')
+    expect(statusInput).toBeInTheDocument()
+    statusInput.click()
     expect(screen.getByText('Registered')).toBeInTheDocument()
 
-    const typeSelector = screen.getByText('Type', { selector: 'label' })
-    expect(typeSelector).toBeInTheDocument()
-    typeSelector.click()
+    const typeInput = screen.getByLabelText('Type')
+    expect(typeInput).toBeInTheDocument()
+    typeInput.click()
     expect(screen.getByText('Blood Pressure')).toBeInTheDocument()
 
-    const unitSelector = screen.getByText('Unit', { selector: 'label' })
-    expect(unitSelector).toBeInTheDocument()
+    const unitInput = screen.getByLabelText('Unit')
+    expect(unitInput).toBeInTheDocument()
 
     const valueInput = screen.getByRole('spinbutton', { name: 'Value' })
     expect(valueInput).toBeInTheDocument()

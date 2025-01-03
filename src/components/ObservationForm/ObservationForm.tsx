@@ -19,12 +19,12 @@ import {
 } from '@stanfordspezi/spezi-web-design-system/components/Select'
 import { useForm, Field } from '@stanfordspezi/spezi-web-design-system/forms'
 import { type z } from 'zod'
-import { RXNORM_MEDICATION_CODING_SYSTEM } from '@/modules/fhir/allergy-intolerance'
+import { rxnormMedicationCodingSystem } from '@/modules/fhir/allergyIntolerance'
+import { FHIRResourceType } from '@/modules/fhir/base'
 import {
-  FHIR_OBSERVATION_RESOURCE_TYPE,
-  FHIRObservationValidationSchema,
-  OBSERVATION_STATUS_OPTIONS,
-  OBSERVATION_TYPE_OPTIONS,
+  fhirObservationValidationSchema,
+  observationStatusOptions,
+  observationTypeOptions,
   type UserObservationCollection,
 } from '@/modules/fhir/observation'
 import {
@@ -32,13 +32,13 @@ import {
   getUnitOfObservationType,
 } from '@/utils/utils'
 
-export const observationFormSchema = FHIRObservationValidationSchema
+export const observationFormSchema = fhirObservationValidationSchema
 
 export type ObservationFormSchema = z.infer<typeof observationFormSchema>
 
 interface ObservationFormProps {
   observation?: Observation
-  onSubmit: (data: Observation) => Promise<void>
+  onSubmit: (observation: Observation) => Promise<void>
 }
 
 export const ObservationForm = ({
@@ -49,7 +49,7 @@ export const ObservationForm = ({
   const form = useForm({
     formSchema: observationFormSchema,
     defaultValues: {
-      resourceType: FHIR_OBSERVATION_RESOURCE_TYPE,
+      resourceType: FHIRResourceType.Observation,
       effectiveDateTime: new Date(),
     },
   })
@@ -58,7 +58,7 @@ export const ObservationForm = ({
     async (data: ObservationFormSchema) => {
       try {
         const obs: Observation = {
-          resourceType: FHIR_OBSERVATION_RESOURCE_TYPE,
+          resourceType: FHIRResourceType.Observation,
           status: data.status,
           subject: {
             reference: `Patient/${observation?.subject?.reference}`,
@@ -66,9 +66,9 @@ export const ObservationForm = ({
           code: {
             coding: [
               {
-                system: RXNORM_MEDICATION_CODING_SYSTEM,
+                system: rxnormMedicationCodingSystem,
                 code: data.type,
-                display: OBSERVATION_TYPE_OPTIONS.find(
+                display: observationTypeOptions.find(
                   (option) => option.code === data.type,
                 )?.display,
               },
@@ -100,11 +100,11 @@ export const ObservationForm = ({
         label="Status"
         render={({ field }) => (
           <Select onValueChange={field.onChange} {...field}>
-            <SelectTrigger>
+            <SelectTrigger id="status">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
-              {OBSERVATION_STATUS_OPTIONS.map((status) => (
+              {observationStatusOptions.map((status) => (
                 <SelectItem key={status.code} value={status.code}>
                   {status.display}
                 </SelectItem>
@@ -131,11 +131,11 @@ export const ObservationForm = ({
             }}
             {...field}
           >
-            <SelectTrigger>
+            <SelectTrigger id="type">
               <SelectValue placeholder="Type" />
             </SelectTrigger>
             <SelectContent>
-              {OBSERVATION_TYPE_OPTIONS.map((type) => (
+              {observationTypeOptions.map((type) => (
                 <SelectItem key={type.code} value={type.code}>
                   {type.display}
                 </SelectItem>
@@ -150,7 +150,7 @@ export const ObservationForm = ({
         label="Unit"
         render={({ field }) => (
           <Select {...field} key={formType}>
-            <SelectTrigger>
+            <SelectTrigger id="unit">
               <SelectValue placeholder="Unit" />
             </SelectTrigger>
             <SelectContent>
@@ -193,11 +193,7 @@ export const ObservationForm = ({
           />
         )}
       />
-      <Button
-        type="submit"
-        disabled={!form.formState.isValid}
-        isPending={form.formState.isSubmitting}
-      >
+      <Button type="submit" isPending={form.formState.isSubmitting}>
         {isEdit ? 'Edit' : 'Create'} observation
       </Button>
     </form>
