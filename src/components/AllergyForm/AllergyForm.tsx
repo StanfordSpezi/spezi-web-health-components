@@ -108,7 +108,7 @@ export const AllergyForm = ({
         label="Type"
         render={({ field }) => (
           <Select onValueChange={(value) => field.onChange(value)} {...field}>
-            <SelectTrigger>
+            <SelectTrigger id="type">
               <SelectValue placeholder="Type" />
             </SelectTrigger>
             <SelectContent>
@@ -169,7 +169,7 @@ export const AllergyForm = ({
               })
             }
           >
-            <SelectTrigger>
+            <SelectTrigger id="clinicalStatus">
               <SelectValue placeholder="Select clinical status" />
             </SelectTrigger>
             <SelectContent>
@@ -188,7 +188,7 @@ export const AllergyForm = ({
         label="Criticality"
         render={({ field }) => (
           <Select onValueChange={(value) => field.onChange(value)} {...field}>
-            <SelectTrigger>
+            <SelectTrigger id="criticality">
               <SelectValue placeholder="Select criticality" />
             </SelectTrigger>
             <SelectContent>
