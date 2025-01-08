@@ -15,14 +15,12 @@ import { createColumnHelper } from '@tanstack/table-core'
 import { PatientMenu } from './PatientMenu'
 
 interface PatientsTableProps extends Omit<DataTableProps<Patient>, 'columns'> {
-  onRowClick?: (patient: Patient) => void
   onDelete: (patient: Patient) => void
   editRoute: (patientId: string) => string
 }
 
 export const PatientsTable = ({
   data,
-  onRowClick,
   onDelete,
   editRoute,
   ...props
@@ -50,9 +48,6 @@ export const PatientsTable = ({
       columns={columns}
       data={data}
       entityName="patients"
-      tableView={{
-        onRowClick: onRowClick,
-      }}
       {...props}
     />
   )
