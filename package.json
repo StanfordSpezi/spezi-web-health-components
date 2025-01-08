@@ -30,7 +30,8 @@
     "test": "vitest run --coverage",
     "docs": "typedoc",
     "docs:ci": "typedoc --out ./out/docs --githubPages true",
-    "storybook": "storybook dev -p 6006"
+    "storybook": "storybook dev -p 6006",
+    "prepush": "yarn run lint:fix && tsc --noEmit"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.9.0",
