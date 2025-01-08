@@ -30,7 +30,7 @@ import {
 import {
   getObservationTypeUnits,
   getUnitOfObservationType,
-} from '@/utils/utils'
+} from '@/utils/observation'
 
 export const observationFormSchema = fhirObservationValidationSchema
 

@@ -6,28 +6,8 @@
 // SPDX-License-Identifier: MIT
 //
 
-import {
-  type fhirCodingConverter,
-  type fhirElementConverter,
-  type InferEncoded,
-  UserObservationCollection,
-} from '@stanfordbdhg/engagehf-models'
-
-export type FHIRElement = InferEncoded<typeof fhirElementConverter>
-export const basicFhirElement: FHIRElement = {
-  id: null,
-  extension: null,
-}
-
-export type FHIRCoding = InferEncoded<typeof fhirCodingConverter>
-export const basicFhirCoding: FHIRCoding = {
-  ...basicFhirElement,
-  system: null,
-  version: null,
-  code: null,
-  display: null,
-  userSelected: null,
-}
+import { UserObservationCollection } from '@stanfordbdhg/engagehf-models'
+import { basicFhirCoding } from '@/modules/fhir/utils'
 
 export const getObservationTypeUnits = (
   observationType: UserObservationCollection,
