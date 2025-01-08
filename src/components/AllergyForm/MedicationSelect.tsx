@@ -32,7 +32,7 @@ export const MedicationSelect = ({
   ...props
 }: MedicationSelectProps) => (
   <Select {...props}>
-    <SelectTrigger id="code">
+    <SelectTrigger>
       <SelectValue placeholder="Medication" />
     </SelectTrigger>
     <SelectContent>

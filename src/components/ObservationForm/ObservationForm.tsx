@@ -98,7 +98,7 @@ export const ObservationForm = ({
         label="Status"
         render={({ field }) => (
           <Select onValueChange={field.onChange} {...field}>
-            <SelectTrigger id="status">
+            <SelectTrigger>
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
@@ -129,7 +129,7 @@ export const ObservationForm = ({
             }}
             {...field}
           >
-            <SelectTrigger id="type">
+            <SelectTrigger>
               <SelectValue placeholder="Type" />
             </SelectTrigger>
             <SelectContent>
@@ -148,7 +148,7 @@ export const ObservationForm = ({
         label="Unit"
         render={({ field }) => (
           <Select {...field} key={formType}>
-            <SelectTrigger id="unit">
+            <SelectTrigger>
               <SelectValue placeholder="Unit" />
             </SelectTrigger>
             <SelectContent>
