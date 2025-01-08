@@ -6,10 +6,6 @@
 // SPDX-License-Identifier: MIT
 //
 
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-
 import { type Medication } from '@medplum/fhirtypes'
 import { render, screen } from '@testing-library/react'
 import { AllergyForm } from '.'
