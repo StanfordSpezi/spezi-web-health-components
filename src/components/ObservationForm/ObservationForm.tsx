@@ -54,40 +54,38 @@ export const ObservationForm = ({
     },
   })
 
-  const handleSubmit = form.handleSubmit(
-    async (data: ObservationFormSchema) => {
-      try {
-        const obs: Observation = {
-          resourceType: FHIRResourceType.Observation,
-          status: data.status,
-          subject: {
-            reference: `Patient/${observation?.subject?.reference}`,
-          },
-          code: {
-            coding: [
-              {
-                system: rxnormMedicationCodingSystem,
-                code: data.type,
-                display: observationTypeOptions.find(
-                  (option) => option.code === data.type,
-                )?.display,
-              },
-            ],
-          },
-          effectiveDateTime: data.effectiveDateTime.toISOString(),
-          valueQuantity: {
-            value: data.value,
-            unit: data.unit,
-          },
-        }
-        await onSubmit(obs)
-        return
-      } catch (error) {
-        console.error('Form submission error:', error)
-        throw error
+  const handleSubmit = form.handleSubmit(async (data) => {
+    try {
+      const obs: Observation = {
+        resourceType: FHIRResourceType.Observation,
+        status: data.status,
+        subject: {
+          reference: `Patient/${observation?.subject?.reference}`,
+        },
+        code: {
+          coding: [
+            {
+              system: rxnormMedicationCodingSystem,
+              code: data.type,
+              display: observationTypeOptions.find(
+                (option) => option.value === data.type,
+              )?.label,
+            },
+          ],
+        },
+        effectiveDateTime: data.effectiveDateTime.toISOString(),
+        valueQuantity: {
+          value: data.value,
+          unit: data.unit,
+        },
       }
-    },
-  )
+      await onSubmit(obs)
+      return
+    } catch (error) {
+      console.error('Form submission error:', error)
+      throw error
+    }
+  })
 
   const [formType, formUnit] = form.watch(['type', 'unit'])
   const units = getObservationTypeUnits(formType)
@@ -105,8 +103,8 @@ export const ObservationForm = ({
             </SelectTrigger>
             <SelectContent>
               {observationStatusOptions.map((status) => (
-                <SelectItem key={status.code} value={status.code}>
-                  {status.display}
+                <SelectItem key={status.value} value={status.value}>
+                  {status.label}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -136,8 +134,8 @@ export const ObservationForm = ({
             </SelectTrigger>
             <SelectContent>
               {observationTypeOptions.map((type) => (
-                <SelectItem key={type.code} value={type.code}>
-                  {type.display}
+                <SelectItem key={type.value} value={type.value}>
+                  {type.label}
                 </SelectItem>
               ))}
             </SelectContent>
