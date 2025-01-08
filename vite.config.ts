@@ -29,7 +29,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
-      name: '@stanfordbdhg/spezi-web-health-components',
+      name: '@stanfordspezi/spezi-web-health-components',
       fileName: (format) => `web-health-components.${format}.js`,
     },
     rollupOptions: {
