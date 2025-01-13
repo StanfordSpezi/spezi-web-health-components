@@ -58,7 +58,6 @@ export const AllergyForm = ({
   })
 
   const handleSubmit = form.handleSubmit(async (data) => {
-    console.log('Form values before submission:', data)
     try {
       const allergyIntolerance: AllergyIntolerance = {
         resourceType: data.resourceType,

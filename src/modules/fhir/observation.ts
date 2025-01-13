@@ -40,22 +40,22 @@ export const fhirObservationValidationSchema = z.object({
 })
 
 export const observationStatusOptions = [
-  { code: FHIRObservationStatus.registered, display: 'Registered' },
-  { code: FHIRObservationStatus.preliminary, display: 'Preliminary' },
-  { code: FHIRObservationStatus.final, display: 'Final' },
-  { code: FHIRObservationStatus.amended, display: 'Amended' },
-  { code: FHIRObservationStatus.corrected, display: 'Corrected' },
-  { code: FHIRObservationStatus.cancelled, display: 'Cancelled' },
-  { code: FHIRObservationStatus.enteredInError, display: 'Entered in Error' },
-  { code: FHIRObservationStatus.unknown, display: 'Unknown' },
+  { value: FHIRObservationStatus.registered, label: 'Registered' },
+  { value: FHIRObservationStatus.preliminary, label: 'Preliminary' },
+  { value: FHIRObservationStatus.final, label: 'Final' },
+  { value: FHIRObservationStatus.amended, label: 'Amended' },
+  { value: FHIRObservationStatus.corrected, label: 'Corrected' },
+  { value: FHIRObservationStatus.cancelled, label: 'Cancelled' },
+  { value: FHIRObservationStatus.enteredInError, label: 'Entered in Error' },
+  { value: FHIRObservationStatus.unknown, label: 'Unknown' },
 ]
 
 export const observationTypeOptions = [
-  { code: UserObservationCollection.bodyWeight, display: 'Body Weight' },
-  { code: UserObservationCollection.bloodPressure, display: 'Blood Pressure' },
-  { code: UserObservationCollection.creatinine, display: 'Creatinine' },
-  { code: UserObservationCollection.dryWeight, display: 'Dry Weight' },
-  { code: UserObservationCollection.eGfr, display: 'eGFR' },
-  { code: UserObservationCollection.heartRate, display: 'Heart Rate' },
-  { code: UserObservationCollection.potassium, display: 'Potassium' },
+  { value: UserObservationCollection.bodyWeight, label: 'Body Weight' },
+  { value: UserObservationCollection.bloodPressure, label: 'Blood Pressure' },
+  { value: UserObservationCollection.creatinine, label: 'Creatinine' },
+  { value: UserObservationCollection.dryWeight, label: 'Dry Weight' },
+  { value: UserObservationCollection.eGfr, label: 'eGFR' },
+  { value: UserObservationCollection.heartRate, label: 'Heart Rate' },
+  { value: UserObservationCollection.potassium, label: 'Potassium' },
 ]

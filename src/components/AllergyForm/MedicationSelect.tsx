@@ -39,14 +39,14 @@ export const MedicationSelect = ({
       {medicationClasses.map((medicationClass) => (
         <SelectGroup key={medicationClass.id}>
           <SelectLabel>{parseLocalizedText(medicationClass.name)}</SelectLabel>
-          {medicationClass.medications.map((medication) => (
-            <SelectItem
-              value={medication.code?.coding?.at(0)?.code ?? ''}
-              key={medication.code?.coding?.at(0)?.code ?? ''}
-            >
-              {medication.code?.coding?.at(0)?.display}
-            </SelectItem>
-          ))}
+          {medicationClass.medications.map((medication) => {
+            const coding = medication.code?.coding?.at(0)
+            return (
+              <SelectItem value={coding?.code ?? ''} key={coding?.code ?? ''}>
+                {coding?.display}
+              </SelectItem>
+            )
+          })}
         </SelectGroup>
       ))}
     </SelectContent>

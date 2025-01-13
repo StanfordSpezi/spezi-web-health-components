@@ -37,7 +37,7 @@ export const PatientForm = ({ patient, onSubmit }: PatientFormProps) => {
       : undefined,
   })
 
-  const handleSubmit = form.handleSubmit(async (data: PatientFormSchema) => {
+  const handleSubmit = form.handleSubmit(async (data) => {
     const patient: Patient = {
       resourceType: 'Patient',
       name: [

@@ -13,15 +13,17 @@ import { PatientsTable } from '.'
 describe('PatientsTable', () => {
   it('renders element', () => {
     const onDelete = vitest.fn()
-    const data = [
-      { id: '1', name: [{ given: ['Leland'], family: 'Stanford' }] } as Patient,
-    ]
 
     render(
       <PatientsTable
         onDelete={onDelete}
         editRoute={(patientId) => `/patients/edit/${patientId}`}
-        data={data}
+        data={[
+          {
+            id: '1',
+            name: [{ given: ['Leland'], family: 'Stanford' }],
+          } as Patient,
+        ]}
       />,
     )
 
