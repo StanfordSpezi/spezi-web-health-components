@@ -1,7 +1,7 @@
 #
-# This source file is part of the Stanford Biodesign Digital Health Next.js Template open-source project
+# This source file is part of the Stanford Biodesign Digital Health Spezi Web Health Components open-source project
 #
-# SPDX-FileCopyrightText: 2023 Stanford University and the project authors (see CONTRIBUTORS.md)
+# SPDX-FileCopyrightText: 2024 Stanford University and the project authors (see CONTRIBUTORS.md)
 #
 # SPDX-License-Identifier: MIT
 #
@@ -12,9 +12,9 @@ authors:
   - family-names: 'Schmiedmayer'
     given-names: 'Paul'
     orcid: 'https://orcid.org/0000-0002-8607-9148'
-  - family-names: 'Ravi'
-    given-names: 'Vishnu'
-    orcid: 'https://orcid.org/0000-0003-0359-1275'
-title: 'NextJSTemplate'
+  - family-names: 'Madlener'
+    given-names: 'Nikolai'
+    orcid: 'https://orcid.org/0009-0006-5059-6617'
+title: 'Spezi Web Health Components'
 doi: '10.5281/zenodo.10052055'
-url: 'https://github.com/StanfordBDHG/NextJSTemplate'
+url: 'https://github.com/StanfordSpezi/spezi-web-health-components'

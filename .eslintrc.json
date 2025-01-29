@@ -3,6 +3,13 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": ["./tsconfig.json"]
+      }
+    }
+  },
   "parser": "@typescript-eslint/parser",
   "extends": [
     "plugin:@typescript-eslint/strict-type-checked",
@@ -103,7 +110,7 @@
   },
   "overrides": [
     {
-      "files": ["app/**/*.ts?(x)", "**/*.stories.ts?(x)"],
+      "files": ["app/**/*.ts?(x)", "**/*.stories.ts?(x)", "vite.config.ts"],
       "rules": {
         "import/no-default-export": "off"
       }

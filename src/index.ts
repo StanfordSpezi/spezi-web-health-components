@@ -6,5 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
-// Do not add any other lines of code to this file!
-import '@total-typescript/ts-reset'
+export * from './components/AllergyForm'
+export * from './components/PatientForm'
+export * from './components/ObservationForm'
+export * from './components/PatientsTable'
